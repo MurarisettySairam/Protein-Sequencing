@@ -4,6 +4,7 @@ Name:
 Roll Number:
 """
 
+from posixpath import split
 import hw6_protein_tests as test
 
 project = "Protein" # don't edit this
@@ -17,9 +18,13 @@ Parameters: str
 Returns: str
 '''
 def readFile(filename):
-    return
+    o=open(filename,"r").read()
+    sl=''
+    for i in o.splitlines():
+        sl+=i
+    return sl
 
-
+    
 '''
 dnaToRna(dna, startIndex)
 #2 [Check6-1]
@@ -186,11 +191,11 @@ def runFullProgram():
 
 # This code runs the test cases to check your work
 if __name__ == "__main__":
-    print("\n" + "#"*15 + " WEEK 1 TESTS " +  "#" * 16 + "\n")
-    test.week1Tests()
-    print("\n" + "#"*15 + " WEEK 1 OUTPUT " + "#" * 15 + "\n")
-    runWeek1()
-
+    # print("\n" + "#"*15 + " WEEK 1 TESTS " +  "#" * 16 + "\n")
+    # test.week1Tests()
+    # print("\n" + "#"*15 + " WEEK 1 OUTPUT " + "#" * 15 + "\n")
+    # runWeek1()
+    test.testReadFile()
     ## Uncomment these for Week 2 ##
     """
     print("\n" + "#"*15 + " WEEK 2 TESTS " +  "#" * 16 + "\n")
