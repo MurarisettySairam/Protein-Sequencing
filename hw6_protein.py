@@ -5,6 +5,7 @@ Roll Number:
 """
 
 from posixpath import split
+from typing import NewType
 import hw6_protein_tests as test
 
 project = "Protein" # don't edit this
@@ -32,8 +33,15 @@ Parameters: str ; int
 Returns: list of strs
 '''
 def dnaToRna(dna, startIndex):
-    return
-
+    l=[]
+    s=dna.replace("T","U")
+    for i in range(startIndex,len(s),3):
+        l.append(s[i:i+3])
+    for i in l:
+        if i=="UAA" or i=="UGA" or i=="UAG":
+            n=l.index(i)
+            return l[:n+1]
+    return l
 
 '''
 makeCodonDictionary(filename)
@@ -195,7 +203,8 @@ if __name__ == "__main__":
     # test.week1Tests()
     # print("\n" + "#"*15 + " WEEK 1 OUTPUT " + "#" * 15 + "\n")
     # runWeek1()
-    test.testReadFile()
+    # test.testReadFile()
+    test.testDnaToRna()
     ## Uncomment these for Week 2 ##
     """
     print("\n" + "#"*15 + " WEEK 2 TESTS " +  "#" * 16 + "\n")
