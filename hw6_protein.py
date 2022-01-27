@@ -4,6 +4,7 @@ Name:
 Roll Number:
 """
 
+from email.headerregistry import ContentDispositionHeader
 from posixpath import split
 from typing import NewType
 import hw6_protein_tests as test
@@ -68,7 +69,13 @@ Parameters: list of strs ; dict mapping strs to strs
 Returns: list of strs
 '''
 def generateProtein(codons, codonD):
-    return
+    L=[]
+    for i in codons:
+        for j in codonD:
+            if i==j:
+                L.append(codonD[j])
+                L[0]="Start"
+    return L
 
 
 '''
@@ -212,7 +219,8 @@ if __name__ == "__main__":
     # runWeek1()
     # test.testReadFile()
     # test.testDnaToRna()
-    test.testMakeCodonDictionary()
+    # test.testMakeCodonDictionary()
+    test.testGenerateProtein()
     ## Uncomment these for Week 2 ##
     """
     print("\n" + "#"*15 + " WEEK 2 TESTS " +  "#" * 16 + "\n")
