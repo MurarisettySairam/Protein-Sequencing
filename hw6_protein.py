@@ -5,6 +5,7 @@ Roll Number:
 """
 
 from email.headerregistry import ContentDispositionHeader
+from itertools import combinations
 from posixpath import split
 from typing import NewType
 import hw6_protein_tests as test
@@ -160,7 +161,29 @@ Parameters: 2D list of strs ; 2D list of strs ; float
 Returns: 2D list of values
 '''
 def findAminoAcidDifferences(proteinList1, proteinList2, cutoff):
-    return
+    n1=combineProteins(proteinList1)
+    n2=combineProteins(proteinList2)
+    n3=aminoAcidDictionary(n1)
+    n4=aminoAcidDictionary(n2)
+    l=[]
+    for i,j in n3.items():
+        if i!="Start" and i!="Stop" and i not in l:
+            l.append(i)
+    for i,j in n4.items():
+        if i!="Start" and i!="Stop" and i not in l:
+            l.append(i)
+    f=[]
+    for i in l:
+        frequency_1=0
+        frequency_2=0
+        if i in n1:
+            frequency_1=n3[i]/len(n1)
+        if i in n2:
+            frequency_2=n4[i]/len(n2)
+        diff=frequency_1-frequency_2
+        if diff>cutoff or diff<-cutoff:
+            f.append([i,frequency_1,frequency_2])
+    return f
 
 
 '''
@@ -250,7 +273,8 @@ if __name__ == "__main__":
     # test.testSynthesizeProteins()
     # test.testCommonProteins()
     # test.testCombineProteins()
-    test.testAminoAcidDictionary()
+    # test.testAminoAcidDictionary()
+    test.testFindAminoAcidDifferences()
     ## Uncomment these for Week 2 ##
     """
     print("\n" + "#"*15 + " WEEK 2 TESTS " +  "#" * 16 + "\n")
