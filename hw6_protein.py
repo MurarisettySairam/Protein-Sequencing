@@ -51,11 +51,14 @@ Returns: dict mapping strs to strs
 '''
 def makeCodonDictionary(filename):
     import json
-    d1=dict(zip(filename))
-    l=dict(d1.items(),key=lambda x:x[1],reverse=True)
-    for key,values in l.items():
-        print(key)
-    return
+    d1={}
+    o=open(filename,"r")
+    d=json.load(o)
+    for i in d:
+        for j in d[i]:
+            j=j.replace('T','U')
+            d1[j]=i
+    return d1
 
 
 '''
