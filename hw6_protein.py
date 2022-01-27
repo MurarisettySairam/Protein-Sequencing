@@ -193,7 +193,23 @@ Parameters: 2D list of strs ; 2D list of values
 Returns: None
 '''
 def displayTextResults(commonalities, differences):
-    return
+    l=[]
+    for i in commonalities:
+        i.remove('Start')
+        i.remove('Stop')
+        if len(i)>1:
+            symbol='-'.join(i)
+            l.append([symbol])
+        else:
+            if i not in l:
+                l.append(i)
+    s=sorted(l)
+    for i in s:
+        for j in i:
+            print(j)
+    for i in differences:
+        print(i[0]+":"+str(round(i[1]*100,2))+"%"+ " in seq1 ,"+str(round(i[2]*100,2))+"%"+"in seq2")
+    return 
 
 
 def runWeek2():
@@ -274,7 +290,8 @@ if __name__ == "__main__":
     # test.testCommonProteins()
     # test.testCombineProteins()
     # test.testAminoAcidDictionary()
-    test.testFindAminoAcidDifferences()
+    # test.testFindAminoAcidDifferences()
+    runWeek2()
     ## Uncomment these for Week 2 ##
     """
     print("\n" + "#"*15 + " WEEK 2 TESTS " +  "#" * 16 + "\n")
