@@ -4,6 +4,9 @@ Name:
 Roll Number:
 """
 
+from email.headerregistry import ContentDispositionHeader
+from posixpath import split
+from typing import NewType
 import hw6_protein_tests as test
 
 project = "Protein" # don't edit this
@@ -17,9 +20,13 @@ Parameters: str
 Returns: str
 '''
 def readFile(filename):
-    return
+    o=open(filename,"r").read()
+    sl=''
+    for i in o.splitlines():
+        sl+=i
+    return sl
 
-
+    
 '''
 dnaToRna(dna, startIndex)
 #2 [Check6-1]
@@ -27,8 +34,15 @@ Parameters: str ; int
 Returns: list of strs
 '''
 def dnaToRna(dna, startIndex):
-    return
-
+    l=[]
+    s=dna.replace("T","U")
+    for i in range(startIndex,len(s),3):
+        l.append(s[i:i+3])
+    for i in l:
+        if i=="UAA" or i=="UGA" or i=="UAG":
+            n=l.index(i)
+            return l[:n+1]
+    return l
 
 '''
 makeCodonDictionary(filename)
@@ -38,7 +52,14 @@ Returns: dict mapping strs to strs
 '''
 def makeCodonDictionary(filename):
     import json
-    return
+    d1={}
+    o=open(filename,"r")
+    d=json.load(o)
+    for i in d:
+        for j in d[i]:
+            j=j.replace('T','U')
+            d1[j]=i
+    return d1
 
 
 '''
@@ -48,7 +69,13 @@ Parameters: list of strs ; dict mapping strs to strs
 Returns: list of strs
 '''
 def generateProtein(codons, codonD):
-    return
+    L=[]
+    for i in codons:
+        for j in codonD:
+            if i==j:
+                L.append(codonD[j])
+                L[0]="Start"
+    return L
 
 
 '''
@@ -58,7 +85,23 @@ Parameters: str ; str
 Returns: 2D list of strs
 '''
 def synthesizeProteins(dnaFilename, codonFilename):
-    return
+    list1=[]
+    unused=0
+    f= readFile(dnaFilename)
+    s= makeCodonDictionary(codonFilename)
+    i=0
+
+    while i < len(f):
+        n= f[i:i+3]
+        if n == 'ATG':
+            nca=dnaToRna(f,i)
+            new_call= generateProtein(nca,s)
+            list1.append(new_call)
+            i+=3*len(nca)
+        else:
+            i=i+1
+            unused=unused+1 
+    return list1
 
 
 def runWeek1():
@@ -77,9 +120,11 @@ Parameters: 2D list of strs ; 2D list of strs
 Returns: 2D list of strs
 '''
 def commonProteins(proteinList1, proteinList2):
-    return
-
-
+    l=[]
+    for i in proteinList1:
+        if i in proteinList2:
+            l.append(i)
+    return l
 '''
 combineProteins(proteinList)
 #2 [Check6-2]
@@ -186,11 +231,16 @@ def runFullProgram():
 
 # This code runs the test cases to check your work
 if __name__ == "__main__":
-    print("\n" + "#"*15 + " WEEK 1 TESTS " +  "#" * 16 + "\n")
-    test.week1Tests()
-    print("\n" + "#"*15 + " WEEK 1 OUTPUT " + "#" * 15 + "\n")
-    runWeek1()
-
+    # print("\n" + "#"*15 + " WEEK 1 TESTS " +  "#" * 16 + "\n")
+    # test.week1Tests()
+    # print("\n" + "#"*15 + " WEEK 1 OUTPUT " + "#" * 15 + "\n")
+    # runWeek1()
+    # test.testReadFile()
+    # test.testDnaToRna()
+    # test.testMakeCodonDictionary()
+    # test.testGenerateProtein()
+    # test.testSynthesizeProteins()
+    test.testCommonProteins()
     ## Uncomment these for Week 2 ##
     """
     print("\n" + "#"*15 + " WEEK 2 TESTS " +  "#" * 16 + "\n")
